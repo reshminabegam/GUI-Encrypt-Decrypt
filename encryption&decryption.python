@@ -1,0 +1,43 @@
+import base64
+import ipywidgets as widgets
+from IPython.display import display
+
+# Define widgets
+text_area = widgets.Textarea(placeholder='Enter text for encryption and decryption', layout=widgets.Layout(width='50%', height='100px'))
+key_input = widgets.Password(description='Key:', layout=widgets.Layout(width='30%'))
+encrypt_button = widgets.Button(description="Encrypt", button_style='danger')
+decrypt_button = widgets.Button(description="Decrypt", button_style='success')
+output_area = widgets.Output()
+
+def encrypt_action(b):
+    password = key_input.value
+    if password == "7171":
+        message = text_area.value
+        encoded_message = base64.b64encode(message.encode('ascii')).decode('ascii')
+        with output_area:
+            output_area.clear_output()
+            print(f"Encrypted Message: {encoded_message}")
+    else:
+        with output_area:
+            output_area.clear_output()
+            print("Invalid password for encryption!")
+
+def decrypt_action(b):
+    password = key_input.value
+    if password == "7171":
+        message = text_area.value
+        decoded_message = base64.b64decode(message.encode('ascii')).decode('ascii')
+        with output_area:
+            output_area.clear_output()
+            print(f"Decrypted Message: {decoded_message}")
+    else:
+        with output_area:
+            output_area.clear_output()
+            print("Invalid password for decryption!")
+
+# Assign button actions
+encrypt_button.on_click(encrypt_action)
+decrypt_button.on_click(decrypt_action)
+
+# Display widgets
+display(text_area, key_input, encrypt_button, decrypt_button, output_area)
